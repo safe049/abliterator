@@ -21,3 +21,9 @@ my_model = abliterator.ModelAbliterator(
   positive_toks=positive_toks,
   negative_toks=negative_toks
 )
+
+my_model.cache_activations(N=512,reset=True,preserve_harmless=True)
+
+refusal_dirs = my_model.refusal_dirs()
+testing_dir = refusal_dirs['blocks.18.hook_resid_pre']
+my_model.test_dir(testing_dir, N=32, use_hooks=True) # I recommend use_hooks=True for large models as it can slow things down otherwise, but use_hooks=False can give you more precise scoring to an actual weights modification
